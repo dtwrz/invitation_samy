@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for invitationisa on 2026-09-21T22:34:13+02:00
+# fly.toml app configuration file generated for invitation-samy on 2026-11-27T01:16:45Z
 #
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+# See https://docs.fly.io/reference/configuration for information about how to use this file.
 #
 
-app = 'invitationisa'
-primary_region = 'dfw'
+app = 'invitation-samy'
+primary_region = 'iad'
 
 [build]
   dockerfile = 'Dockerfile'
@@ -13,13 +13,8 @@ primary_region = 'dfw'
   ADDR = ':8080'
   COOKIE_SAMESITE = 'lax'
   DATABASE_DSN = 'file:/data/invitation.db?_pragma=journal_mode(WAL)&_pragma=busy_timeout(5000)&_pragma=foreign_keys(1)'
-  # Los medios viven en Cloudinary, no en el disco de la máquina: así el
-  # video no sale por aquí y el tráfico de salida —la única parte variable de
-  # la factura— se queda en casi cero. Las claves van en `fly secrets`.
   STORAGE_DRIVER = 'cloudinary'
 
-# El volumen ya solo guarda la base de datos, que pesa unos cientos de KB.
-# El tamaño mínimo de Fly es 1 GB y cuesta 0,15 USD al mes.
 [[mounts]]
   source = 'datos'
   destination = '/data'
@@ -27,7 +22,7 @@ primary_region = 'dfw'
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = false
+  auto_stop_machines = 'off'
   auto_start_machines = true
   min_machines_running = 1
 
